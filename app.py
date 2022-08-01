@@ -14,7 +14,7 @@ s3_client = boto3.client('s3',
                         aws_secret_access_key="access_key")
 bucket = boto3.resource('s3', 
                         aws_access_key_id="key_id",
-                        aws_secret_access_key="access_key") .Bucket('nasil')
+                        aws_secret_access_key="access_key").Bucket('nasil')
 
 def remove_punc(str):
     import string
