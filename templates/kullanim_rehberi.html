@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>nasıl? | Ana Sayfa</title>
+    <title>nasıl? | Kullanım Rehberi</title>
     <style>
         .footer-basic {
         padding: 40px 0;
@@ -315,43 +315,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
 </head>
-
 <body>
     {% include  "includes/navbar.html"%}
-    <main class="flex-shrink-0">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <div>
-                        {% if sent_query %}
-                            {% if found_related_titles %}
-                                <h2 style="text-align:center; font-family: Quicksand, sans-serif; padding-bottom: 25px;">İlgili Rehberler</h2>
-                                <hr>
-                                <div style="text-align: center;">
-                                    {% for tutorial in found_tutorials %}
-                                        <a style="text-decoration: none; color:black; display: inline-block; margin-right: 25px; margin-left: 25px;" href="/rehber/{{tutorial}}"><p style="border-color: #7000da; border-style: solid; border-width: 2px; padding:10px; width:250px; text-align:center; border-radius: 3px; font-family: Poppins, sans-serif;">{{tutorial}}</p></a>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                <h2 style="text-align:center; font-family: Quicksand, sans-serif; padding-bottom: 25px;">İlgili rehber bulunamadı.</h2>
-                            {% endif %}
-                        {% else %}
-                            <form action="/" method="POST">
-                                <div class="input-group mb-3">
-                                    <input style="width:85%; border-radius: 25px; height: 40px; border-color: #7000da;" type="text" name="search" id="search" placeholder="  Ne yapmak istersiniz?">
-                                    <div class="input-group-prepend">
-                                        <button style="border-radius: 50px; width:70px; margin-left: 25px; background-color: white; border-color: #39C466; color: #39C466; font-family: Quicksand, sans-serif;" class="btn btn-primary" type="submit">Ara</button>
-                                    </div>
-                                </div>
-                            </form>
-                        {% endif %}
-                    </div>
-                </div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h3 style="color:#39c466; margin-top:-30px;">Kullanım Rehberi</h3>
+                <li style="list-style-type: none; font-family: Poppins, sans-serif; margin-top: 15px;"><strong>Adım 1: Ana sayfaya gidin.</strong></li>
+                <p style="font-family: Quicksand, sans-serif;"><a href="/" style="color:#7000da; text-decoration: none;"><strong>nasil.herokuapp.com</strong></a> adresi üzerinden ana sayfaya gidin.</p>
+                <li style="list-style-type: none; font-family: Poppins, sans-serif;"><strong>Adım 2: Takip etmek istediğiniz rehberi aratın.</strong></li>
+                <p style="font-family: Quicksand, sans-serif;">Ana sayfadaki <strong style="color: #7000da;">arama çubuğunu</strong> kullanarak takip etmek istediğiniz rehberi veya ihtiyacınız olan bir rehbere ait birkaç anahtar kelimeyi aratabilirsiniz. nasıl? aradığınız rehberi veya aradığınız anahtar kelimelerin yer aldığı rehberleri size sunacaktır.</p>
+                <li style="list-style-type: none; font-family: Poppins, sans-serif;"><strong>Adım 3: Rehberi takip edin.</strong></li>
+                <p style="font-family: Quicksand, sans-serif;">Yaptığınız arama sonucunda karşınıza çıkan rehberlerden isteğinize en uygun olanı seçin ve seçtiğiniz rehberi takip edin.</p>
+                <li style="list-style-type: none; font-family: Poppins, sans-serif;"><strong>Adım 4: Anlamadığınız adımın üzerine tıklayın. </strong></li>
+                <p style="font-family: Quicksand, sans-serif;">Rehberi takip ederken nasıl yapılacağını anlamadığınız bir adım olursa bu adımın üzerine tıklayın. Böylece, nasıl?, sizi o adımla eşleştirdiği yeni bir rehbere yönlendirecektir. Anlamadığınız adımla ilgili rehberi takip ederek o adımı daha kolay bir şekilde, daha kısa bir zaman zarfında tamamlayarak takip ettiğiniz asıl rehbere dönebilirsiniz.</p>
+                <li style="list-style-type: none; font-family: Poppins, sans-serif;"><strong>Adım 5: İsteğinizi gerçekleştirene kadar tekrar edin. </strong></li>
+                <p style="font-family: Quicksand, sans-serif;">İsteğinizi gerçekleştirene, amacınıza ulaşana veya sorununuzu çözene dek 4. adımı tekrar edin. Gerçekleştirmeye çalıştığınız eylemi başarana (takip ettiğiniz asıl rehberi sonlandırana) dek anlamadığınız veya tamamlayamadığınız başka adımlar olursa 4. adımı ziyaret edin. Böylece vakit, para ve emek kaybetmeden, pek çok tarayıcı sekmesi açmadan, kısa süre içerisinde, düzenli bir şekilde rehberi tamamlayacaksınız.</p>
             </div>
         </div>
-    </main>
+    </div>
     {% include "includes/footer.html"%}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

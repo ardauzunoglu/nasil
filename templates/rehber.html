@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>nasıl? | Kullanım Rehberi</title>
+    <title>nasıl? | Ana Sayfa</title>
     <style>
         .footer-basic {
         padding: 40px 0;
@@ -315,8 +315,112 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
 </head>
+
 <body>
     {% include  "includes/navbar.html"%}
+    <main class="flex-shrink-0">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h2 style="color:#7000da; margin-top:-50px; font-family: Poppins, sans-serif; text-align: center;">{{ data["title"] }}</h2>
+                    <br>
+                    <br>
+                    <p style="font-size: 12px; font-family: Quicksand, sans-serif;"> <strong>Kategori hiyerarşisi:</strong> {{categories}} </p>
+                    {% if "methods" in data.keys() %}
+                        {% for method in data["methods"] %}
+                            <h3 style="font-family: Poppins, sans-serif; font-size: 28px;"> <strong style="color:#39c466;">Yöntem {{method["index"]}}:</strong> {{method["name"]}} </h3>
+                            <br>
+                            <div id="accordion">
+                            {% for step in method["steps"] %}
+                                <div class="card" style="background-color: white !important; background: white !important; border:none !important;">
+                                    <div class="card-header" style="background-color: white !important; background: white !important; border:none !important;" id="heading{{method['index']}}{{step['index']}}">
+                                        <p class="mb-0" style="text-decoration: none; margin-left:-20px; font-family: Quicksand, sans-serif; font-size: 18px;">
+                                            <a href="/{{step['matched_title']}}" style="text-decoration: none; color:black;"><strong>Adım {{step["index"]}}:</strong> {{step["headline"]}}</a>
+                                            <button style="text-decoration: none; color:#7000da; margin-left:50px; font-size: 12px;" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse{{method['index']}}{{step['index']}}" aria-expanded="false" aria-controls="collapse{{step['index']}}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
+                                                </svg>
+                                            </button>
+                                        </p>
+                                    </div>
+                                    <div id="collapse{{method['index']}}{{step['index']}}" class="collapse" aria-labelledby="heading{{method['index']}}{{step['index']}}" data-parent="#accordion">
+                                        <div style="margin-left: -20px; margin-top: -10px; margin-bottom: 50px; font-family: Quicksand, sans-serif;" class="card-body">
+                                            {{step["description"]}}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <br>
+                            </div>
+                        {% endfor %} 
+                    {% endif %}   
+                    {% if "parts" in data.keys() %}
+                        {% for part in data["parts"] %}
+                            <h3 style="font-family: Poppins, sans-serif; font-size: 28px;"> <strong style="color:#39c466;">Kısım {{part["index"]}}:</strong> {{part["name"]}} </h3>
+                            <br>
+                            <div id="accordion">
+                            {% for step in part["steps"] %}
+                                <div class="card" style="background-color: white !important; background: white !important; border:none !important;">
+                                    <div class="card-header" style="background-color: white !important; background: white !important; border:none !important;" id="heading{{part['index']}}{{step['index']}}">
+                                        <p class="mb-0" style="text-decoration: none; margin-left:-20px; font-family: Quicksand, sans-serif; font-size: 18px;">
+                                            <a href="/{{step['matched_title']}}" style="text-decoration: none; color:black;"><strong>Adım {{step["index"]}}:</strong> {{step["headline"]}}</a>
+                                            <button style="text-decoration: none; color:#7000da; margin-left:50px; font-size: 12px;" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse{{part['index']}}{{step['index']}}" aria-expanded="false" aria-controls="collapse{{step['index']}}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
+                                                </svg>
+                                            </button>
+                                        </p>
+                                    </div>
+                                    <div id="collapse{{part['index']}}{{step['index']}}" class="collapse" aria-labelledby="heading{{part['index']}}{{step['index']}}" data-parent="#accordion">
+                                        <div style="margin-left: -20px; margin-top: -10px; margin-bottom: 50px; font-family: Quicksand, sans-serif;" class="card-body">
+                                            {{step["description"]}}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <br>
+                        {% endfor %}
+                    {% endif %}
+                    {% if "steps" in data.keys() %}
+                        <div id="accordion">
+                        {% for step in data["steps"] %}
+                            <div class="card" style="background-color: white !important; background: white !important; border:none !important;">
+                                <div class="card-header" style="background-color: white !important; background: white !important; border:none !important;" id="heading{{step['index']}}">
+                                    <p class="mb-0" style="text-decoration: none; margin-left:-20px; font-family: Quicksand, sans-serif; font-size: 18px;">
+                                        <a href="/{{step['matched_title']}}" style="text-decoration: none; color:black;"><strong>Adım {{step["index"]}}:</strong> {{step["headline"]}}</a>
+                                        <button style="text-decoration: none; color:#7000da; margin-left:50px; font-size: 12px;" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse{{step['index']}}" aria-expanded="false" aria-controls="collapse{{step['index']}}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
+                                            </svg>
+                                        </button>
+                                    </p>
+                                </div>
+                                <div id="collapse{{step['index']}}" class="collapse" aria-labelledby="heading{{step['index']}}" data-parent="#accordion">
+                                    <div style="margin-left: -20px; margin-top: -10px; margin-bottom: 50px; font-family: Quicksand, sans-serif;" class="card-body">
+                                        {{step["description"]}}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <br>
+                    <br>
+                    <p>Bu rehberi orijinal dilinde takip etmek isterseniz bu<a href="{{data['url']}}" style="text-decoration: none; color:#7000da;"> adresi </a> ziyaret edebilirsiniz.</p>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </main>
     {% include "includes/footer.html"%}
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

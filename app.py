@@ -1,4 +1,4 @@
-import os
+import re
 import json
 import time
 import random
@@ -10,11 +10,11 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
 s3_client = boto3.client('s3',
-                        aws_access_key_id="key_id",
-                        aws_secret_access_key="access_key")
+                        aws_access_key_id="AKIAW3MNVVBF2QXVLXUM",
+                        aws_secret_access_key="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")
 bucket = boto3.resource('s3', 
-                        aws_access_key_id="key_id",
-                        aws_secret_access_key="access_key").Bucket('nasil')
+                        aws_access_key_id="AKIAW3MNVVBF2QXVLXUM",
+                        aws_secret_access_key="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").Bucket('nasil')
 
 def remove_punc(str):
     import string
@@ -39,7 +39,7 @@ def index():
         sent_query = True
         tutorial_titles = [remove_punc(obj.key.split("/")[-1].replace(".json", "")).lower() for obj in bucket.objects.all()]
         
-        related_titles = [title.title() for title in tutorial_titles if (search.lower() in title) and improve_search(search.lower(), title)]
+        related_titles = [title.title() for title in tutorial_titles if (search.lower() in title) and improve_search(search.lower().strip(), title)]
         found_related_titles = (not(len(related_titles) == 0))
 
         redirect(url_for("index", found_tutorials=related_titles, found_related_titles=found_related_titles, sent_query=sent_query))
@@ -51,6 +51,36 @@ def index():
 
     return render_template("index.html", found_tutorials=related_titles, sent_query=sent_query, found_related_titles=found_related_titles)
 
+@app.route("/rehber/<baslik>")
+def rehber(baslik):
+
+    with open('data.json', 'wb') as f:
+        s3_client.download_fileobj('nasil', "ultimate-wikihow-tr/"+baslik+".json", f)
+
+    data = json.load(open('data.json', "r", encoding="utf-8"))
+    if "methods" in data.keys():
+        for method in data["methods"]:
+            method["index"] = data["methods"].index(method) + 1
+            for step in method["steps"]:
+                step["description"] = re.sub(r'{.+?}', '', step["description"])
+                step["index"] = method["steps"].index(step) + 1
+
+    if "parts" in data.keys():
+        for part in data["parts"]:
+            part["index"] = data["parts"].index(part) + 1
+            for step in part["steps"]:
+                step["description"] = re.sub(r'{.+?}', '', step["description"])
+                step["index"] = part["steps"].index(step) + 1
+
+    if "steps" in data.keys():
+        for step in data["steps"]:
+            step["description"] = re.sub(r'{.+?}', '', step["description"])
+            step["index"] = data["steps"].index(step) + 1
+
+    categories = " >> ".join(data["category_hierarchy"])
+
+    return render_template("rehber.html", data=data, categories=categories)
+
 @app.route("/ekip")
 def ekip():
     return render_template("ekip.html")
@@ -59,9 +89,9 @@ def ekip():
 def hedefler():
     return render_template("hedefler.html")
 
-@app.route("/rehber")
-def rehber():
-    return render_template("rehber.html")
+@app.route("/kullanim_rehberi")
+def kullanim_rehberi():
+    return render_template("kullanim_rehberi.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
