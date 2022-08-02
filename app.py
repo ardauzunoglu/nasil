@@ -10,11 +10,11 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
 s3_client = boto3.client('s3',
-                        aws_access_key_id="key_id",
-                        aws_secret_access_key="access_key")
+                        aws_access_key_id="#",
+                        aws_secret_access_key="#+#/#")
 bucket = boto3.resource('s3', 
-                        aws_access_key_id="key_id",
-                        aws_secret_access_key="access_key").Bucket('nasil')
+                        aws_access_key_id="#",
+                        aws_secret_access_key="#+#/#").Bucket('nasil2')
 
 def remove_punc(str):
     import string
@@ -55,7 +55,7 @@ def index():
 def rehber(baslik):
 
     with open('data.json', 'wb') as f:
-        s3_client.download_fileobj('nasil', "ultimate-wikihow-tr/"+baslik+".json", f)
+        s3_client.download_fileobj('nasil2', "ultimate-wikihow-tr/"+baslik+".json", f)
 
     data = json.load(open('data.json', "r", encoding="utf-8"))
     if "methods" in data.keys():
