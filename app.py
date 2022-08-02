@@ -10,11 +10,11 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
 s3_client = boto3.client('s3',
-                        aws_access_key_id="AKIAW3MNVVBF2QXVLXUM",
-                        aws_secret_access_key="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")
+                        aws_access_key_id="key_id",
+                        aws_secret_access_key="access_key")
 bucket = boto3.resource('s3', 
-                        aws_access_key_id="AKIAW3MNVVBF2QXVLXUM",
-                        aws_secret_access_key="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").Bucket('nasil')
+                        aws_access_key_id="key_id",
+                        aws_secret_access_key="access_key").Bucket('nasil')
 
 def remove_punc(str):
     import string
