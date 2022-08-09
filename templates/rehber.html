@@ -303,6 +303,43 @@
         line-height: 60px;
         }
 
+        .my-popover-content {
+            display:none;
+            left: 100px !important;
+        }
+
+        .step_info {
+            color: black;
+        }
+        
+        .popover-title {
+            color: #7000da;
+            font-family: Poppins, sans-serif;
+            font-size: 18px;
+        }
+
+        .popover-content {
+            color: black;
+            font-family: Quicksand, sans-serif;
+            font-size: 12px;
+            text-decoration: none;
+        }
+
+        .popover-percent {
+            color:#39c466 !important;
+        }
+
+        .popover-link {
+            color:black !important;
+            text-decoration: none !important;
+        }
+
+        .popover-link:hover {
+            opacity: 0.6;
+            color:black !important;
+            text-decoration: none !important;
+        }
+
     </style>
     <link rel="icon" href="https://raw.githubusercontent.com/ardauzunoglu/nasil/main/yayla-logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
@@ -335,12 +372,21 @@
                                 <div class="card" style="background-color: white !important; background: white !important; border:none !important;">
                                     <div class="card-header" style="background-color: white !important; background: white !important; border:none !important;" id="heading{{method['index']}}{{step['index']}}">
                                         <p class="mb-0" style="text-decoration: none; margin-left:-20px; font-family: Quicksand, sans-serif; font-size: 18px;">
-                                            <a href="/{{step['matched_title']}}" style="text-decoration: none; color:black;"><strong>Adım {{step["index"]}}:</strong> {{step["headline"]}}</a>
-                                            <button style="text-decoration: none; color:#7000da; margin-left:50px; font-size: 12px;" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse{{method['index']}}{{step['index']}}" aria-expanded="false" aria-controls="collapse{{step['index']}}">
+                                            <a class="step" href="#" onclick="return false;" style="text-decoration: none; color:black;"><strong>Adım {{step["index"]}}:</strong> {{step["headline"]}}</a>
+                                            <button onclick="change_status($(this).attr('target-id'))" style="text-decoration: none; color:#7000da; margin-left:50px; font-size: 12px;" class="btn btn-link collapsed" target-id="collapse{{method['index']}}{{step['index']}}" data-target="#collapse{{method['index']}}{{step['index']}}" aria-expanded="false" aria-controls="collapse{{step['index']}}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
                                                 </svg>
                                             </button>
+                                            <div class="my-popover-content" id="{{method['index']}}{{step['index']}}">
+                                                <h4 class="popover-title">Eşleşen Rehberler</h4>
+                                                <hr>
+                                                {% for matched_title in step["matched_titles"] %}
+                                                    {% for key in matched_title.keys() %}
+                                                        <p class="popover-content"><a class="popover-link" href="/rehber/{{key}}">{{key}}</a> &rarr; <strong class="popover-percent">{{matched_title[key]}}</strong></p>
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            </div>
                                         </p>
                                     </div>
                                     <div id="collapse{{method['index']}}{{step['index']}}" class="collapse" aria-labelledby="heading{{method['index']}}{{step['index']}}" data-parent="#accordion">
@@ -363,12 +409,21 @@
                                 <div class="card" style="background-color: white !important; background: white !important; border:none !important;">
                                     <div class="card-header" style="background-color: white !important; background: white !important; border:none !important;" id="heading{{part['index']}}{{step['index']}}">
                                         <p class="mb-0" style="text-decoration: none; margin-left:-20px; font-family: Quicksand, sans-serif; font-size: 18px;">
-                                            <a href="/{{step['matched_title']}}" style="text-decoration: none; color:black;"><strong>Adım {{step["index"]}}:</strong> {{step["headline"]}}</a>
-                                            <button style="text-decoration: none; color:#7000da; margin-left:50px; font-size: 12px;" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse{{part['index']}}{{step['index']}}" aria-expanded="false" aria-controls="collapse{{step['index']}}">
+                                            <a class="step" href="#" onclick="return false;" style="text-decoration: none; color:black;"><strong>Adım {{step["index"]}}:</strong> {{step["headline"]}}</a>
+                                            <button onclick="change_status($(this).attr('target-id'))" style="text-decoration: none; color:#7000da; margin-left:50px; font-size: 12px;" class="btn btn-link collapsed" target-id="collapse{{part['index']}}{{step['index']}}" data-target="#collapse{{part['index']}}{{step['index']}}" aria-expanded="false" aria-controls="collapse{{step['index']}}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
                                                 </svg>
                                             </button>
+                                            <div class="my-popover-content" id="{{part['index']}}{{step['index']}}">
+                                                <h4 class="popover-title">Eşleşen Rehberler</h4>
+                                                <hr>
+                                                {% for matched_title in step["matched_titles"] %}
+                                                    {% for key in matched_title.keys() %}
+                                                        <p class="popover-content"><a class="popover-link" href="/rehber/{{key}}">{{key}}</a> &rarr; <strong class="popover-percent">{{matched_title[key]}}</strong></p>
+                                                    {% endfor %}
+                                                {% endfor %}
+                                            </div>
                                         </p>
                                     </div>
                                     <div id="collapse{{part['index']}}{{step['index']}}" class="collapse" aria-labelledby="heading{{part['index']}}{{step['index']}}" data-parent="#accordion">
@@ -379,20 +434,30 @@
                                 </div>
                             {% endfor %}
                             <br>
-                        {% endfor %}
-                    {% endif %}
+                            </div>
+                        {% endfor %} 
+                    {% endif %}   
                     {% if "steps" in data.keys() %}
                         <div id="accordion">
                         {% for step in data["steps"] %}
                             <div class="card" style="background-color: white !important; background: white !important; border:none !important;">
                                 <div class="card-header" style="background-color: white !important; background: white !important; border:none !important;" id="heading{{step['index']}}">
                                     <p class="mb-0" style="text-decoration: none; margin-left:-20px; font-family: Quicksand, sans-serif; font-size: 18px;">
-                                        <a href="/{{step['matched_title']}}" style="text-decoration: none; color:black;"><strong>Adım {{step["index"]}}:</strong> {{step["headline"]}}</a>
-                                        <button style="text-decoration: none; color:#7000da; margin-left:50px; font-size: 12px;" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse{{step['index']}}" aria-expanded="false" aria-controls="collapse{{step['index']}}">
+                                        <a class="step" href="#" onclick="return false;" style="text-decoration: none; color:black;"><strong>Adım {{step["index"]}}:</strong> {{step["headline"]}}</a>
+                                        <button onclick="change_status($(this).attr('target-id'))" style="text-decoration: none; color:#7000da; margin-left:50px; font-size: 12px;" class="btn btn-link collapsed" target-id="collapse{{step['index']}}" data-target="#collapse{{step['index']}}" aria-expanded="false" aria-controls="collapse{{step['index']}}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-short" viewBox="0 0 16 16">
                                                 <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5A.5.5 0 0 1 8 4z"/>
                                             </svg>
                                         </button>
+                                        <div class="my-popover-content" id="{{step['index']}}">
+                                            <h4 class="popover-title">Eşleşen Rehberler</h4>
+                                            <hr>
+                                            {% for matched_title in step["matched_titles"] %}
+                                                {% for key in matched_title.keys() %}
+                                                    <p class="popover-content"><a class="popover-link" href="/rehber/{{key}}">{{key}}</a> &rarr; <strong class="popover-percent">{{matched_title[key]}}</strong></p>
+                                                {% endfor %}
+                                            {% endfor %}
+                                        </div>
                                     </p>
                                 </div>
                                 <div id="collapse{{step['index']}}" class="collapse" aria-labelledby="heading{{step['index']}}" data-parent="#accordion">
@@ -420,7 +485,40 @@
     </main>
     {% include "includes/footer.html"%}
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        
+        function change_status(target_id) {
+            class_list = Array.from(document.getElementById(target_id).classList);
+
+            if (document.getElementById(target_id).classList.contains('show')){
+                document.getElementById(target_id).classList.remove('show');
+                
+            } else {
+                document.getElementById(target_id).classList.add('show');
+            }
+
+            console.log(class_list);
+        }
+
+        $(document).ready(function () {
+            popoverOptions = {
+                content: function () {
+                    // Get the content from the hidden sibling.
+                    return $(this).parent('.mb-0').siblings('.my-popover-content').html();
+                },
+                trigger: 'focus',
+                animation: true,
+                placement: 'right',
+                html: true,
+                offset: "0 15px"
+            };
+            $('.step').popover(popoverOptions);
+        });
+    </script>
 </body>
 </html>

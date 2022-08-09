@@ -334,6 +334,12 @@
                                 </div>
                             {% else %}
                                 <h2 style="text-align:center; font-family: Quicksand, sans-serif; padding-bottom: 25px;">İlgili rehber bulunamadı.</h2>
+                                <p style="font-family: Poppins, sans-serif;">
+                                    Belki bu rehbelere göz atmak isteyebilirsin:  
+                                    {% for tutorial in random_tutorials %}
+                                        <a style="text-decoration:none; color:#7000da;" href="/rehber/{{ tutorial }}"><strong>{{ tutorial }}</strong></a>{% if not loop.last %}, {% endif %}
+                                    {% endfor %}
+                                </p>    
                             {% endif %}
                         {% else %}
                             <form action="/" method="POST">
@@ -344,6 +350,15 @@
                                     </div>
                                 </div>
                             </form>
+                            <br>
+                            <br>
+                            <p style="text-align: center; font-size: 24px; font-family: Quicksand, sans-serif;"><strong style="color:#7000DA;">{{tutorial_num}}</strong> tane rehber arasından dilediğinizi aratın!</p>
+                            <p style="font-family: Poppins, sans-serif;">
+                                Aklınıza arayacak bir rehber gelmiyor mu? İşte sizin için seçtiğimiz üç rehber: 
+                                {% for tutorial in random_tutorials %}
+                                    <a style="text-decoration:none; color:#7000da;" href="/rehber/{{ tutorial }}"><strong>{{ tutorial }}</strong></a>{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </p>    
                         {% endif %}
                     </div>
                 </div>

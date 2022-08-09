@@ -11,10 +11,10 @@ app = Flask(__name__)
 
 s3_client = boto3.client('s3',
                         aws_access_key_id="#",
-                        aws_secret_access_key="#+#/#")
+                        aws_secret_access_key="#")
 bucket = boto3.resource('s3', 
                         aws_access_key_id="#",
-                        aws_secret_access_key="#+#/#").Bucket('nasil2')
+                        aws_secret_access_key="#").Bucket('nasil2')
 
 def remove_punc(str):
     import string
@@ -34,6 +34,11 @@ def improve_search(search, title):
 @app.route("/", methods=["GET", "POST"])
 @app.route("/anasayfa", methods=["GET", "POST"])
 def index():
+    tutorial_num = len(list(bucket.objects.all()))
+    random_tutorials = [list(bucket.objects.all())[random.randint(0, tutorial_num-1)].key.replace(".json", ""), 
+                        list(bucket.objects.all())[random.randint(0, tutorial_num-1)].key.replace(".json", ""), 
+                        list(bucket.objects.all())[random.randint(0, tutorial_num-1)].key.replace(".json", "")]
+
     if request.method == "POST":
         search = request.form["search"]
         sent_query = True
@@ -49,13 +54,13 @@ def index():
         found_related_titles = False
         related_titles = []
 
-    return render_template("index.html", found_tutorials=related_titles, sent_query=sent_query, found_related_titles=found_related_titles)
+    return render_template("index.html", found_tutorials=related_titles, sent_query=sent_query, found_related_titles=found_related_titles, tutorial_num=tutorial_num, random_tutorials=random_tutorials)
 
 @app.route("/rehber/<baslik>")
 def rehber(baslik):
 
     with open('data.json', 'wb') as f:
-        s3_client.download_fileobj('nasil2', "ultimate-wikihow-tr/"+baslik+".json", f)
+        s3_client.download_fileobj('nasil2', baslik+".json", f)
 
     data = json.load(open('data.json', "r", encoding="utf-8"))
     if "methods" in data.keys():
