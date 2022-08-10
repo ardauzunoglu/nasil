@@ -55,3 +55,84 @@ step2goal veri setine ulaşmak için [tıklayabilirsiniz]().
 wikihow-icerik, wikihow-tr veri setinin yalnızca kategori, yöntem, kısım ve adım bilgisi içeren daha kompakt bir versiyonudur. wikihow-icerik, wikihow-tr'den farklı olarak tüm rehberleri tek bir dosyada barındırmaktadır. wikihow-icerik, reranking modelinin eğitimi sırasında kullanılmıştır.
 
 wikihow-icerik veri setine ulaşmak için [tıklayabilirsiniz]().
+
+# Kullanılan Modeller
+
+## En Yakın 30 Rehber Eldesi
+
+annotated-step-goal veri seti üzerinde denenen çeşitli algoritmaların ve Sentence Transformer modellerinin performansları aşağıdaki gibidir:
+
+<table>
+  <tr>
+    <td> </td>
+    <td colspan="3">Dev</td>
+    <td colspan="3">Train</td>
+  </tr>
+  <tr>
+    <td>Model</td>
+    <td>R@1</td>
+    <td>R@10</td>
+    <td>R@30</td>
+    <td>R@1</td>
+    <td>R@10</td>
+    <td>R@30</td>
+  </tr>
+  <tr>
+    <td>BM25L</td>
+    <td>0.116</td>
+    <td>0.267</td>
+    <td>0.331</td>
+    <td>0.034</td>
+    <td>0.108</td>
+    <td>0.142</td>
+  </tr>
+  <tr>
+    <td>BM25Opaki</td>
+    <td>0.128</td>
+    <td>0.269</td>
+    <td>0.331</td>
+    <td>0.041</td>
+    <td>0.112</td>
+    <td>0.146</td>
+  </tr>
+  <tr>
+    <td>BM25+</td>
+    <td>0.131</td>
+    <td>0.269</td>
+    <td>0.331</td>
+    <td>0.041</td>
+    <td>0.112</td>
+    <td>0.145</td>
+  </tr>
+  <tr>
+    <td>distiluse-base-multilingual-cased</td>
+    <td>0.183</td>
+    <td>0.282</td>
+    <td>0.331</td>
+    <td>0.073</td>
+    <td>0.129</td>
+    <td>0.158</td>
+  </tr>
+  <tr>
+    <td>BERTurk Sentence Transformer</td>
+    <td>0.496</td>
+    <td>0.640</td>
+    <td>0.667</td>
+    <td>0.262</td>
+    <td>0.423</td>
+    <td>0.499</td>
+  </tr>
+  <tr>
+    <td>Fine-tuned BERTurk Sentence Transformer</td>
+    <td>0.640</td>
+    <td>0.760</td>
+    <td>0.782</td>
+    <td>0.337</td>
+    <td>0.562</td>
+    <td>0.651</td>
+  </tr>
+</table>
+
+R@1 = Gold rehberin, elde edilen otuz rehber arasında birinci sırada olma oranı. <br>
+R@10 = Gold rehberin, elde edilen otuz rehber arasında ilk on sırada olma oranı. <br>
+R@30 = Gold rehberin, elde edilen otuz rehber arasında olma oranı. <br>
