@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>nasıl? | Ana Sayfa</title>
+    <title>nasıl? | {{ data["title"] }}</title>
     <style>
         .footer-basic {
         padding: 40px 0;
@@ -379,13 +379,17 @@
                                                 </svg>
                                             </button>
                                             <div class="my-popover-content" id="{{method['index']}}{{step['index']}}">
-                                                <h4 class="popover-title">Eşleşen Rehberler</h4>
-                                                <hr>
-                                                {% for matched_title in step["matched_titles"] %}
-                                                    {% for key in matched_title.keys() %}
-                                                        <p class="popover-content"><a class="popover-link" href="/rehber/{{key}}">{{key}}</a> &rarr; <strong class="popover-percent">{{matched_title[key]}}</strong></p>
-                                                    {% endfor %}
-                                                {% endfor %}
+                                                {% if step["matched_titles"]|length == 0 %}
+                                                    <p class="popover-content">Bu adım ile eşleşmeye uygun rehber bulunamamıştır.</p>
+                                                {% else %}
+                                                    <h4 class="popover-title">Eşleşen Rehberler</h4>
+                                                    <hr>
+                                                    {% for matched_title in step["matched_titles"] %}
+                                                        {% for key in matched_title.keys() %}
+                                                            <p class="popover-content"><a class="popover-link" href="/rehber/{{key}}">{{key}}</a> &rarr; <strong class="popover-percent">{{matched_title[key]}}</strong></p>
+                                                        {% endfor %}
+                                                    {% endfor %} 
+                                                {% endif %}   
                                             </div>
                                         </p>
                                     </div>
@@ -416,13 +420,17 @@
                                                 </svg>
                                             </button>
                                             <div class="my-popover-content" id="{{part['index']}}{{step['index']}}">
-                                                <h4 class="popover-title">Eşleşen Rehberler</h4>
-                                                <hr>
-                                                {% for matched_title in step["matched_titles"] %}
-                                                    {% for key in matched_title.keys() %}
-                                                        <p class="popover-content"><a class="popover-link" href="/rehber/{{key}}">{{key}}</a> &rarr; <strong class="popover-percent">{{matched_title[key]}}</strong></p>
-                                                    {% endfor %}
-                                                {% endfor %}
+                                                {% if step["matched_titles"]|length == 0 %}
+                                                    <p class="popover-content">Bu adım ile eşleşmeye uygun rehber bulunamamıştır.</p>
+                                                {% else %}
+                                                    <h4 class="popover-title">Eşleşen Rehberler</h4>
+                                                    <hr>
+                                                    {% for matched_title in step["matched_titles"] %}
+                                                        {% for key in matched_title.keys() %}
+                                                            <p class="popover-content"><a class="popover-link" href="/rehber/{{key}}">{{key}}</a> &rarr; <strong class="popover-percent">{{matched_title[key]}}</strong></p>
+                                                        {% endfor %}
+                                                    {% endfor %} 
+                                                {% endif %}   
                                             </div>
                                         </p>
                                     </div>
@@ -450,16 +458,16 @@
                                             </svg>
                                         </button>
                                         <div class="my-popover-content" id="{{step['index']}}">
-                                            {% if step["matched_titles"]|length > 1 %}
+                                            {% if step["matched_titles"]|length == 0 %}
+                                                <p class="popover-content">Bu adım ile eşleşmeye uygun rehber bulunamamıştır.</p>
+                                            {% else %}
                                                 <h4 class="popover-title">Eşleşen Rehberler</h4>
                                                 <hr>
                                                 {% for matched_title in step["matched_titles"] %}
                                                     {% for key in matched_title.keys() %}
                                                         <p class="popover-content"><a class="popover-link" href="/rehber/{{key}}">{{key}}</a> &rarr; <strong class="popover-percent">{{matched_title[key]}}</strong></p>
                                                     {% endfor %}
-                                                {% endfor %}
-                                            {% else %}
-                                                <p class="popover-content">Bu adım ile eşleşmeye uygun rehber bulunamamıştır.</p>
+                                                {% endfor %} 
                                             {% endif %}   
                                         </div>
                                     </p>
