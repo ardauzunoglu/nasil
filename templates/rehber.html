@@ -450,13 +450,17 @@
                                             </svg>
                                         </button>
                                         <div class="my-popover-content" id="{{step['index']}}">
-                                            <h4 class="popover-title">Eşleşen Rehberler</h4>
-                                            <hr>
-                                            {% for matched_title in step["matched_titles"] %}
-                                                {% for key in matched_title.keys() %}
-                                                    <p class="popover-content"><a class="popover-link" href="/rehber/{{key}}">{{key}}</a> &rarr; <strong class="popover-percent">{{matched_title[key]}}</strong></p>
+                                            {% if step["matched_titles"]|length > 1 %}
+                                                <h4 class="popover-title">Eşleşen Rehberler</h4>
+                                                <hr>
+                                                {% for matched_title in step["matched_titles"] %}
+                                                    {% for key in matched_title.keys() %}
+                                                        <p class="popover-content"><a class="popover-link" href="/rehber/{{key}}">{{key}}</a> &rarr; <strong class="popover-percent">{{matched_title[key]}}</strong></p>
+                                                    {% endfor %}
                                                 {% endfor %}
-                                            {% endfor %}
+                                            {% else %}
+                                                <p class="popover-content">Bu adım ile eşleşmeye uygun rehber bulunamamıştır.</p>
+                                            {% endif %}   
                                         </div>
                                     </p>
                                 </div>
