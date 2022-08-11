@@ -1,4 +1,5 @@
 import re
+import os
 import json
 import random
 import boto3
@@ -6,12 +7,15 @@ from flask import Flask, flash, request, redirect, send_file, url_for, render_te
 
 app = Flask(__name__)
 
+AWS_ACCESS_KEY_ID=os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_KEY=os.environ.get('AWS_SECRET_KEY')
+
 s3_client = boto3.client('s3',
-                        aws_access_key_id="#",
-                        aws_secret_access_key="#")
+                        aws_access_key_id=AWS_ACCESS_KEY_ID,
+                        aws_secret_access_key=AWS_SECRET_KEY)
 bucket = boto3.resource('s3', 
-                        aws_access_key_id="#",
-                        aws_secret_access_key="#").Bucket('nasil2')
+                        aws_access_key_id=AWS_ACCESS_KEY_ID,
+                        aws_secret_access_key=AWS_SECRET_KEY).Bucket('nasil2')
 
 def remove_punc(str):
     import string
