@@ -27,7 +27,7 @@ nasıl? platformunun geliştirilmesinde kullanılan veri setleri temelde ikiye a
 
 ## wikihow-tr
 
-nasıl?'da yer alan rehberlerden oluşan wikihow-tr veri setine ulaşmak için [tıklayabilirsiniz]().
+nasıl?'da yer alan rehberlerden oluşan wikihow-tr veri setine ulaşmak için [tıklayabilirsiniz](https://drive.google.com/drive/folders/1dk9GKE58Q6lv2R0Dsj5lxnB2TGQ8W7Hy?usp=sharing).
 
 ### Veri Seti Eldesi
 wikihow-tr, [Wikihow corpus](https://drive.google.com/file/d/1ufBrqYoHTFoBtSxwYks6i_iR9HqmobxR/view) veri setinin "Cars and Other Vehicles" (Arabalar ve Diğer Araçlar), "Computers and Electronics" (Bilgisayar ve Elektronik), "Health" (Sağlık), "Hobbies and Crafts" (Hobiler ve El Sanatları), "Home and Garden" (Ev ve Bahçe), "Pets and Animals" (Evcil Hayvanlar ve Hayvanlar) kategorilerinde yer alan rehberlerin [ÇeVeri](https://github.com/ardauzunoglu/ceveri) aracılığıyla Türkçeleştirilmesi sonucu elde edilmiştir.
