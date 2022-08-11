@@ -244,7 +244,7 @@ Eğitimde kullanılan loss fonksiyonu aşağıdaki formül ile hesaplanmaktadır
 
 <img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BPurple%7D%20C%28s%29%7D"/> → elde edilen en yakın 30 rehber.
 
-Reranking modelinin eğitiminde üç farklı veri setinden (step2goal, wikihow-icerik, ve annotated-step-goal) faydalanılmaktadır.
+Reranking modelinin eğitiminde üç farklı veri setinden (step2goal, wikihow-icerik, ve annotated-step-goal) faydalanılmaktadır. Reranking modelinin eğitimi (train.py) ve kullanımı (inference.py) için kullanılan kod dosyalarına bakmak için [reranking](https://github.com/ardauzunoglu/nasil/tree/main/reranking) klasörüne göz atabilirsiniz.
 
 ### Reranking Modelinin Kullanımı
 
