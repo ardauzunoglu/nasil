@@ -224,25 +224,25 @@ Formülde yer alan [AD] ve [RE] tokenleri, pretrained BERTurk modelinde rezerve 
 
 İkinci basamakta hesaplanan benzerlik skoru aşağıdaki formül kullanılarak elde edilmektedir:
 
-<img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BPurple%7Dsim_2%20%3D%20proj%28%5Cmu_c%28s%2C%20g_i%29%29%20&plus;%20%5Clambda%20sim_1%28s%2C%20g_i%29%7D"/>
+<img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BYellow%7Dsim_2%20%3D%20proj%28%5Cmu_c%28s%2C%20g_i%29%29%20&plus;%20%5Clambda%20sim_1%28s%2C%20g_i%29%7D"/>
 
-<img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BPurple%7D%20%5Cmu_c%7D"/> → BERTurk modeli, çıktı olarak embedding vermektedir.
+<img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BYellow%7D%20%5Cmu_c%7D"/> → BERTurk modeli, çıktı olarak embedding vermektedir.
 
-<img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BPurple%7D%20proj%7D"/> → d-boyutlu bir vektör alıp onu <img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BPurple%7D%20W%20%5Cepsilon%20R%5E%7Bd%20x%201%7D%7D"/> ağırlık matrix'ine sahip bir skalere dönüştüren fonksiyon.
+<img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BYellow%7D%20proj%7D"/> → d-boyutlu bir vektör alıp onu <img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BYellow%7D%20W%20%5Cepsilon%20R%5E%7Bd%20x%201%7D%7D"/> ağırlık matrix'ine sahip bir skalere dönüştüren fonksiyon.
 
-<img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BPurple%7D%20%5Clambda%20%7D"/> → ilk basamaktaki benzerlik skorunun ağırlığı.
+<img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BYellow%7D%20%5Clambda%20%7D"/> → ilk basamaktaki benzerlik skorunun ağırlığı.
 
-<img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BPurple%7D%20s%20%7D"/> → adım.
+<img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BYellow%7D%20s%20%7D"/> → adım.
 
-<img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BPurple%7D%20g_i%20%7D"/> → en yakın 30 rehber arasındaki i. rehber.
+<img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BYellow%7D%20g_i%20%7D"/> → en yakın 30 rehber arasındaki i. rehber.
 
-Hem <img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BPurple%7D%20%5Clambda%20%7D"/> hem de <img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BPurple%7D%20W%20%7D"/> back-propagation ile optimize edilen değerlerdir.
+Hem <img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BYellow%7D%20%5Clambda%20%7D"/> hem de <img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BYellow%7D%20W%20%7D"/> back-propagation ile optimize edilen değerlerdir.
 
 Eğitimde kullanılan loss fonksiyonu aşağıdaki formül ile hesaplanmaktadır:
 
-<img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BPurple%7D%20-%20log%28softmax%28%5Cfrac%7Bsim_2%28s%2C%20g_i%29%7D%7B%5Csum%20%28g_j%20%5Cepsilon%20C%28s%29%29%20sim_2%28s%2C%20g_i%29%7D%29%29%7D"/>
+<img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BYellow%7D%20-%20log%28softmax%28%5Cfrac%7Bsim_2%28s%2C%20g_i%29%7D%7B%5Csum%20%28g_j%20%5Cepsilon%20C%28s%29%29%20sim_2%28s%2C%20g_i%29%7D%29%29%7D"/>
 
-<img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BPurple%7D%20C%28s%29%7D"/> → elde edilen en yakın 30 rehber.
+<img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BYellow%7D%20C%28s%29%7D"/> → elde edilen en yakın 30 rehber.
 
 Reranking modelinin eğitiminde üç farklı veri setinden (step2goal, wikihow-icerik, ve annotated-step-goal) faydalanılmaktadır. Reranking modelinin eğitimi (train.py) ve kullanımı (inference.py) için kullanılan kod dosyalarına bakmak için [reranking](https://github.com/ardauzunoglu/nasil/tree/main/reranking) klasörüne göz atabilirsiniz.
 
