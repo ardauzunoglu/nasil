@@ -17,6 +17,8 @@ bucket = boto3.resource('s3',
                         aws_access_key_id=AWS_ACCESS_KEY_ID,
                         aws_secret_access_key=AWS_SECRET_KEY).Bucket('nasil2')
 
+all_bucket_objects = bucket.objects.all()
+
 def remove_punc(str):
     import string
     new_string = str.translate(str.maketrans('', '', string.punctuation))
@@ -35,15 +37,15 @@ def improve_search(search, title):
 @app.route("/", methods=["GET", "POST"])
 @app.route("/anasayfa", methods=["GET", "POST"])
 def index():
-    tutorial_num = len(list(bucket.objects.all()))
-    random_tutorials = [list(bucket.objects.all())[random.randint(0, tutorial_num-1)].key.replace(".json", ""), 
-                        list(bucket.objects.all())[random.randint(0, tutorial_num-1)].key.replace(".json", ""), 
-                        list(bucket.objects.all())[random.randint(0, tutorial_num-1)].key.replace(".json", "")]
+    tutorial_num = len(list(all_bucket_objects))
+    random_tutorials = [list(all_bucket_objects)[random.randint(0, tutorial_num-1)].key.replace(".json", ""), 
+                        list(all_bucket_objects)[random.randint(0, tutorial_num-1)].key.replace(".json", ""), 
+                        list(all_bucket_objects)[random.randint(0, tutorial_num-1)].key.replace(".json", "")]
 
     if request.method == "POST":
         search = request.form["search"]
         sent_query = True
-        tutorial_titles = [remove_punc(obj.key.split("/")[-1].replace(".json", "")).lower() for obj in bucket.objects.all()]
+        tutorial_titles = [remove_punc(obj.key.split("/")[-1].replace(".json", "")).lower() for obj in all_bucket_objects]
         
         related_titles = [title.title() for title in tutorial_titles if (search.lower() in title) and improve_search(search.lower().strip(), title)]
         found_related_titles = (not(len(related_titles) == 0))
