@@ -38,9 +38,9 @@ def improve_search(search, title):
 @app.route("/anasayfa", methods=["GET", "POST"])
 def index():
     tutorial_num = len(list(all_bucket_objects))
-    random_tutorials = [list(all_bucket_objects)[random.randint(0, tutorial_num-1)].key.replace(".json", ""), 
-                        list(all_bucket_objects)[random.randint(0, tutorial_num-1)].key.replace(".json", ""), 
-                        list(all_bucket_objects)[random.randint(0, tutorial_num-1)].key.replace(".json", "")]
+    random_tutorials = [list(all_bucket_objects)[random.randint(0, tutorial_num-1)].key.replace(".json", "").title(), 
+                        list(all_bucket_objects)[random.randint(0, tutorial_num-1)].key.replace(".json", "").title(), 
+                        list(all_bucket_objects)[random.randint(0, tutorial_num-1)].key.replace(".json", "").title()]
 
     if request.method == "POST":
         search = request.form["search"]
