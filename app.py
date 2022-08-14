@@ -61,9 +61,8 @@ def index():
 
 @app.route("/rehber/<baslik>")
 def rehber(baslik):
-
     with open('data.json', 'wb') as f:
-        s3_client.download_fileobj('nasil2', baslik+".json", f)
+        s3_client.download_fileobj('nasil2', baslik.lower()+".json", f)
 
     data = json.load(open('data.json', "r", encoding="utf-8"))
     if "methods" in data.keys():
