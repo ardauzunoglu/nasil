@@ -11,6 +11,10 @@ nasıl? prosedürel veri içeren rehberlerde yer alan yönergeleri, rehber havuz
 [nasıl? Websitesi](#nasıl-websitesi) <br>
 [Geliştirici Ekip](#geliştirici-ekip) <br>
 
+# Örnek
+
+![ornek](https://raw.githubusercontent.com/ardauzunoglu/nasil/main/readme/ornek.gif)
+
 # Kullanılan Veri Seti
 
 nasıl? platformunun geliştirilmesinde kullanılan veri setleri temelde ikiye ayrılmaktadır: <br> 
