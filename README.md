@@ -127,6 +127,15 @@ annotated-step-goal veri seti üzerinde denenen çeşitli algoritmaların ve Sen
     <td>0.145</td>
   </tr>
   <tr>
+    <td>BERTurk (Zero-shot)</td>
+    <td>0.165</td>
+    <td>0.293</td>
+    <td>0.320</td>
+    <td>0.065</td>
+    <td>0.134</td>
+    <td>0.155</td>
+  </tr>
+  <tr>
     <td>distiluse-base-multilingual-cased</td>
     <td>0.183</td>
     <td>0.282</td>
