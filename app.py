@@ -69,6 +69,7 @@ def rehber(baslik):
         for method in data["methods"]:
             method["index"] = data["methods"].index(method) + 1
             for step in method["steps"]:
+                step["headline"] = re.sub(r'{.+?}', '', step["headline"])
                 step["description"] = re.sub(r'{.+?}', '', step["description"])
                 step["index"] = method["steps"].index(step) + 1
 
@@ -76,11 +77,13 @@ def rehber(baslik):
         for part in data["parts"]:
             part["index"] = data["parts"].index(part) + 1
             for step in part["steps"]:
+                step["headline"] = re.sub(r'{.+?}', '', step["headline"])
                 step["description"] = re.sub(r'{.+?}', '', step["description"])
                 step["index"] = part["steps"].index(step) + 1
 
     if "steps" in data.keys():
         for step in data["steps"]:
+            step["headline"] = re.sub(r'{.+?}', '', step["headline"])
             step["description"] = re.sub(r'{.+?}', '', step["description"])
             step["index"] = data["steps"].index(step) + 1
 
