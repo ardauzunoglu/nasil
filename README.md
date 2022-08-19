@@ -51,7 +51,7 @@ wikihow-tr kapsamında her bir rehber ayrı bir json dosyasında tutulmaktadır.
 
 all-results, wikihow-tr veri setinde yer alan tüm rehberlerdeki tüm adımlar için sentence transformer kullanılarak en yakın 30 rehberin retrieve edilmesi sonrası eğittiğimiz reranking modeli ile bu 30 rehberin yeniden sıralanması sonucu elde edilmiştir ve wikihow-tr veri setinde yer alan tüm rehberlerdeki tüm adımlara ait eşleşme bilgilerini içermektedir. 
 
-all-results veri setine ulaşmak için [tıklayabilirsiniz]().
+all-results veri setine ulaşmak için [tıklayabilirsiniz](https://drive.google.com/file/d/10l2H9kf7G9Hu3EUXg7psMh5wVwhz4uKc/view?usp=sharing).
 
 ## annotated-step-goal
 annotated-step-goal, wikihow-tr veri seti içerisinde yer alan ve wikihow editörleri tarafından gerçekleştirilmiş adım & rehber eşleşmelerini barındırmaktadır. annotated-step-goal, reranking modelinin eğitimi sırasında kullanılmıştır.
@@ -174,7 +174,7 @@ En yakın 30 rehber eldesi aşamasında kullanılması amacıyla Türkçe senten
 
 ![Türkçe Sentence Transformer Modeli](https://raw.githubusercontent.com/ardauzunoglu/nasil/main/readme/Türkçe-Sentence-Transformer.png)
 
-Türkçe Sentence Transformer'ın eğitiminde TDD'den alınan 240GB'lık [TDD-Corpus](https://data.tdd.ai/#/69212ac7-a7e3-4405-8a10-b0bf7feb54dd) veri seti kullanılmıştır. TDD-Corpus'ta yer alan dokümasyonlar, öncelikle cümlelere ayrılmış ve devamında Python'ın `random` kütüphanesi kullanılarak rastgele cümle çiftleri oluşturulmuştur. SNLI-tr ve MNLI-tr kullanılarak fine-tune edilen ConvBERTurk modelinin kullanılmasıyla, oluşturulan cümle çiftleri "entailment", "contradiction" ve "neutral" olmak üzere üç seçenek arasından etiketlenmiştir. Daha sonrasında confidence score kullanılarak filtreme yapılmış ve düşük confidence score'una sahip cümle çiftleri elenmiştir. Filtreme sonrası elde kalan 80 milyon cümle çifti ile birlikte ConvBERTurk modeli kullanılarak Türkçe Sentence Transformer modeli eğitilmiştir. Eğitim aşamasında [training_nli_v2.py](https://github.com/UKPLab/sentence-transformers/blob/master/examples/training/nli/training_nli_v2.py) ve [training_stsbenchmark_continue_training.py](https://github.com/UKPLab/sentence-transformers/blob/master/examples/training/sts/training_stsbenchmark_continue_training.py) dosyaları kullanılmıştır. Eğitilen Türkçe Sentence Transformer'ın SNLI-tr ve MNLI-tr üzerinde fine-tune edilmesinin en yakın 30 rehber eldesindeki performansını iyileştirdiği gözlemlenmiştir.  
+Türkçe Sentence Transformer'ın eğitiminde TDD'den alınan 240GB'lık [TDD-Corpus](https://data.tdd.ai/#/69212ac7-a7e3-4405-8a10-b0bf7feb54dd) veri seti kullanılmıştır. TDD-Corpus'ta yer alan dokümasyonlar, öncelikle cümlelere ayrılmış ve devamında Python'ın `random` kütüphanesi kullanılarak rastgele cümle çiftleri oluşturulmuştur. SNLI-tr ve MNLI-tr kullanılarak fine-tune edilen ConvBERTurk modelinin kullanılmasıyla, oluşturulan cümle çiftleri "entailment", "contradiction" ve "neutral" olmak üzere üç seçenek arasından etiketlenmiştir. Daha sonrasında confidence score kullanılarak filtreme yapılmış ve düşük confidence score'una sahip cümle çiftleri elenmiştir. Filtreme sonrası elde kalan 80 milyon cümle çifti ile birlikte ConvBERTurk modeli kullanılarak Türkçe Sentence Transformer modeli eğitilmiştir. Eğitim aşamasında temel olarak [training_nli_v2.py](https://github.com/UKPLab/sentence-transformers/blob/master/examples/training/nli/training_nli_v2.py) ve [training_stsbenchmark_continue_training.py](https://github.com/UKPLab/sentence-transformers/blob/master/examples/training/sts/training_stsbenchmark_continue_training.py) dosyaları kullanılmış ancak loss ve max sequence length gibi modele has değişkenler ve araçlar güncellenmiştir. Eğitilen Türkçe Sentence Transformer'ın SNLI-tr ve MNLI-tr üzerinde fine-tune edilmesinin en yakın 30 rehber eldesindeki performansını iyileştirdiği gözlemlenmiştir.  
 
 ### Türkçe Sentence Transformer Model Kartı
 **Base model**: ConvBERTurk <br>
@@ -254,7 +254,9 @@ Formülde yer alan [AD] ve [RE] tokenleri, pretrained BERTurk modelinde rezerve 
 
 <img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BYellow%7D%20proj%7D"/> → d-boyutlu bir vektör alıp onu <img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BYellow%7D%20W%20%5Cepsilon%20R%5E%7Bd%20x%201%7D%7D"/> ağırlık matrix'ine sahip bir skalere dönüştüren fonksiyon. (adım encoding'i → torch.cat() → nn.Linear())
 
-<img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BYellow%7D%20%5Clambda%20%7D"/> → ilk basamaktaki benzerlik skorunun ağırlığı.
+<img src="https://latex.codecogs.com/png.image?\dpi{110}%20{\color{yellow}%20sim_1}"/> → ilk basamakta kullanılan Türkçe Sentence Transformer'ın ürettiği cosine similarity skoru.
+
+<img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BYellow%7D%20%5Clambda%20%7D"/> → <img src="https://latex.codecogs.com/png.image?\dpi{110}%20{\color{yellow}%20sim_1}"/> değerinin ağırlığı.
 
 <img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BYellow%7D%20s%20%7D"/> → adım.
 
