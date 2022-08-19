@@ -37,7 +37,6 @@ def improve_search(search, title):
 def index():
     all_bucket_objects = bucket.objects.all()
 
-    tutorial_num = len(list(all_bucket_objects))
     random_tutorials = [list(all_bucket_objects)[random.randint(0, tutorial_num-1)].key.replace(".json", "").title(), 
                         list(all_bucket_objects)[random.randint(0, tutorial_num-1)].key.replace(".json", "").title(), 
                         list(all_bucket_objects)[random.randint(0, tutorial_num-1)].key.replace(".json", "").title()]
@@ -57,7 +56,7 @@ def index():
         found_related_titles = False
         related_titles = []
 
-    return render_template("index.html", found_tutorials=related_titles, sent_query=sent_query, found_related_titles=found_related_titles, tutorial_num=tutorial_num, random_tutorials=random_tutorials)
+    return render_template("index.html", found_tutorials=related_titles, sent_query=sent_query, found_related_titles=found_related_titles, random_tutorials=random_tutorials)
 
 @app.route("/rehber/<baslik>")
 def rehber(baslik):
