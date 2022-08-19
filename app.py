@@ -17,8 +17,6 @@ bucket = boto3.resource('s3',
                         aws_access_key_id=AWS_ACCESS_KEY_ID,
                         aws_secret_access_key=AWS_SECRET_KEY).Bucket('nasil2')
 
-all_bucket_objects = bucket.objects.all()
-
 def remove_punc(str):
     import string
     new_string = str.translate(str.maketrans('', '', string.punctuation))
@@ -37,6 +35,8 @@ def improve_search(search, title):
 @app.route("/", methods=["GET", "POST"])
 @app.route("/anasayfa", methods=["GET", "POST"])
 def index():
+    all_bucket_objects = bucket.objects.all()
+
     tutorial_num = len(list(all_bucket_objects))
     random_tutorials = [list(all_bucket_objects)[random.randint(0, tutorial_num-1)].key.replace(".json", "").title(), 
                         list(all_bucket_objects)[random.randint(0, tutorial_num-1)].key.replace(".json", "").title(), 
