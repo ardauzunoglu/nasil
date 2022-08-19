@@ -252,7 +252,7 @@ Formülde yer alan [AD] ve [RE] tokenleri, pretrained BERTurk modelinde rezerve 
 
 <img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BYellow%7D%20%5Cmu_c%7D"/> → BERTurk modeli, çıktı olarak embedding vermektedir.
 
-<img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BYellow%7D%20proj%7D"/> → d-boyutlu bir vektör alıp onu <img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BYellow%7D%20W%20%5Cepsilon%20R%5E%7Bd%20x%201%7D%7D"/> ağırlık matrix'ine sahip bir skalere dönüştüren fonksiyon.
+<img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BYellow%7D%20proj%7D"/> → d-boyutlu bir vektör alıp onu <img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BYellow%7D%20W%20%5Cepsilon%20R%5E%7Bd%20x%201%7D%7D"/> ağırlık matrix'ine sahip bir skalere dönüştüren fonksiyon. (adım encoding'i → torch.cat() → nn.Linear())
 
 <img src="https://latex.codecogs.com/svg.latex?%7B%5Ccolor%7BYellow%7D%20%5Clambda%20%7D"/> → ilk basamaktaki benzerlik skorunun ağırlığı.
 
