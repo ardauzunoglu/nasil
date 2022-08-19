@@ -37,9 +37,9 @@ def improve_search(search, title):
 def index():
     all_bucket_objects = bucket.objects.all()
 
-    random_tutorials = [list(all_bucket_objects)[random.randint(0, tutorial_num-1)].key.replace(".json", "").title(), 
-                        list(all_bucket_objects)[random.randint(0, tutorial_num-1)].key.replace(".json", "").title(), 
-                        list(all_bucket_objects)[random.randint(0, tutorial_num-1)].key.replace(".json", "").title()]
+    random_tutorials = [list(all_bucket_objects)[random.randint(0, len(all_bucket_objects)-1)].key.replace(".json", "").title(), 
+                        list(all_bucket_objects)[random.randint(0, len(all_bucket_objects)-1)].key.replace(".json", "").title(), 
+                        list(all_bucket_objects)[random.randint(0, len(all_bucket_objects)-1)].key.replace(".json", "").title()]
 
     if request.method == "POST":
         search = request.form["search"]
