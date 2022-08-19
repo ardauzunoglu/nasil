@@ -176,6 +176,17 @@ En yakın 30 rehber eldesi aşamasında kullanılması amacıyla Türkçe senten
 
 Türkçe Sentence Transformer'ın eğitiminde TDD'den alınan 240GB'lık [TDD-Corpus](https://data.tdd.ai/#/69212ac7-a7e3-4405-8a10-b0bf7feb54dd) veri seti kullanılmıştır. TDD-Corpus'ta yer alan dokümasyonlar, öncelikle cümlelere ayrılmış ve devamında Python'ın `random` kütüphanesi kullanılarak rastgele cümle çiftleri oluşturulmuştur. SNLI-tr ve MNLI-tr kullanılarak fine-tune edilen ConvBERTurk modelinin kullanılmasıyla, oluşturulan cümle çiftleri "entailment", "contradiction" ve "neutral" olmak üzere üç seçenek arasından etiketlenmiştir. Daha sonrasında confidence score kullanılarak filtreme yapılmış ve düşük confidence score'una sahip cümle çiftleri elenmiştir. Filtreme sonrası elde kalan 80 milyon cümle çifti ile birlikte ConvBERTurk modeli kullanılarak Türkçe Sentence Transformer modeli eğitilmiştir. Eğitim aşamasında [training_nli_v2.py](https://github.com/UKPLab/sentence-transformers/blob/master/examples/training/nli/training_nli_v2.py) ve [training_stsbenchmark_continue_training.py](https://github.com/UKPLab/sentence-transformers/blob/master/examples/training/sts/training_stsbenchmark_continue_training.py) dosyaları kullanılmıştır. Eğitilen Türkçe Sentence Transformer'ın SNLI-tr ve MNLI-tr üzerinde fine-tune edilmesinin en yakın 30 rehber eldesindeki performansını iyileştirdiği gözlemlenmiştir.  
 
+### Türkçe Sentence Transformer Model Kartı
+**Base model**: ConvBERTurk <br>
+**Max sequence length**: 256 <br>
+**Dimensions**: 768 <br>
+**Score functions**: dot-product, cosine similarity, euclidean distance <br>
+**Size**: 420MB <br>
+**Pooling**: Mean pooling <br>
+**Loss**: Contrastive loss <br>
+**Data**: TDD-Corpus'un işlenmesiyle elde edilen 80 milyon cümle çifti <br>
+
+
 Türkçe Sentence Transformer modeline ulaşmak için [tıklayabilirsiniz](https://drive.google.com/drive/folders/1eEBsFnCvD1wxo3q5uPNhcKo4W8dhvIk3?usp=sharing).
 
 ## En Yakın 30 Rehberin Yeniden Sıralanması
