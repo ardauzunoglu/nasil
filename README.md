@@ -276,7 +276,7 @@ nasıl? websitesi frontend'de HTML5, CSS3 ve JavaScript kullanırken backend'de 
 ## Kullanım
 
 **Adım 1**: Ana sayfaya gidin.<br>
-[na-sil.herokuapp.com](https://na-sil.herokuapp.com/kullanim_rehberi) adresi üzerinden ana sayfaya gidin.
+[na-sil.herokuapp.com](https://na-sil.herokuapp.com) adresi üzerinden ana sayfaya gidin.
 
 **Adım 2**: Takip etmek istediğiniz rehberi aratın.<br>
 Ana sayfadaki arama çubuğunu kullanarak takip etmek istediğiniz rehberi veya ihtiyacınız olan bir rehbere ait birkaç anahtar kelimeyi aratabilirsiniz. nasıl? aradığınız rehberi veya aradığınız anahtar kelimelerin yer aldığı rehberleri size sunacaktır.
