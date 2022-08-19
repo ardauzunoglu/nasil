@@ -13,11 +13,9 @@ def inference(args):
 
     args.device = device
     # model
-    # restore
     saved = torch.load(args.model_path, map_location='cpu')
     train_args = saved['args']
 
-    # overwrite some arguments
     train_args.neg_num = args.neg_num
     train_args.per_sample_tot = args.per_sample_tot
     train_args.max_sample = 10000000

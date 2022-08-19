@@ -6,7 +6,7 @@ from torch import nn
 import torch.nn.functional as F
 import json
 from transformers import BertConfig, BertTokenizer, BertModel, DebertaConfig, DebertaModel, DebertaTokenizer
-from constants import logger#,TQDM_DISABLE, WANDB_DISABLE
+from constants import logger
 import utils
 from tqdm import tqdm
 import wandb
@@ -40,7 +40,7 @@ class CollateFunc:
         p_idx = 0
         for data in batch:
             step, gold, neg_list, step_index, cand_goal_para_score, corr_goal = data
-            # add special token
+            # special token ekle
             step[step_index] = f"{self.tokenizer.pre_step_tok} {step[step_index]} {self.tokenizer.post_step_tok}"
             context = '. '.join(step)
             cur_pos = f'{context} {self.tokenizer.sep_token} {gold}'
@@ -98,7 +98,7 @@ class RerankDataset(Dataset):
             _t.append(x)
         step_context = _t
         step_index = step_context.index(step)
-        # get context
+        # bağlam bilgisi oluştur
         pre = None
         post = None
         max_pre = step_index
@@ -121,7 +121,7 @@ class RerankDataset(Dataset):
         return step_context, step_index
 
     def construct_positive_negative_data(self, step, step_info, cand_goal_para_score):
-        if self.pos_label:  # have label, for training and auto eval
+        if self.pos_label:
             gold = step_info['gold_goal']
             neg = step_info['retrieved_goals'][:self.args.per_sample_tot]
             if gold in neg:
@@ -131,16 +131,16 @@ class RerankDataset(Dataset):
             cand_goal_para_score[gold] = self.gold_sg_para_score[f"{step} || {gold}"]
         else:
             if len(step_info['retrieved_goals']) == self.args.per_sample_tot:
-                gold = step_info['retrieved_goals'][0] # fake gold
+                gold = step_info['retrieved_goals'][0]
                 neg = step_info['retrieved_goals'][1:]
-            else:  # sometime during retrieval, one candidate is removed
-                gold = "x y z"  # dummy
+            else:
+                gold = "x y z"
                 neg = step_info['retrieved_goals']
-                neg += neg[:self.args.neg_num - len(neg)] # make it per_sample_num
+                neg += neg[:self.args.neg_num - len(neg)]
         return gold, neg, cand_goal_para_score
 
     def construct_positive_negative_with_null(self, step, step_info, cand_goal_para_score):
-        if self.pos_label:  # have label, for training and auto eval
+        if self.pos_label:
             gold = step_info['gold_goal']
             neg = step_info['retrieved_goals'][:self.args.per_sample_tot]
             if gold in neg:
@@ -153,13 +153,13 @@ class RerankDataset(Dataset):
                 gold = self.null_token
         else:
             if len(step_info['retrieved_goals']) == self.args.per_sample_tot:
-                gold = step_info['retrieved_goals'][0] # fake gold
+                gold = step_info['retrieved_goals'][0]
                 neg = step_info['retrieved_goals'][1:-1]
                 neg.append(self.null_token)
-            else:  # sometime during retrieval, one candidate is removed
-                gold = self.null_token  # dummy
+            else:
+                gold = self.null_token 
                 neg = step_info['retrieved_goals']
-                neg += neg[:self.args.neg_num - len(neg)] # make it self.args.neg_num
+                neg += neg[:self.args.neg_num - len(neg)]
         return gold, neg, cand_goal_para_score
 
 
@@ -173,7 +173,6 @@ class RerankDataset(Dataset):
                 d = pickle.load(f)
         else:
             raise NotImplementedError(self.data_file)
-        # sanity check for step2goal
         miss = 0
         for step in d:
             if step not in self.step2goal:
@@ -181,7 +180,6 @@ class RerankDataset(Dataset):
         logger.info(f"{miss} steps miss the goal in step2goal map")
         discard = 0
 
-        # text
         for s_idx, (step, info) in enumerate(d.items()):
             cand_goal_para_score = {g: s for g, s in zip(info['retrieved_goals'], info['retrieved_goals_similarity'])}
             cand_goal_para_score[self.null_token] = min(info['retrieved_goals_similarity'])
@@ -193,7 +191,7 @@ class RerankDataset(Dataset):
 
 
             assert len(neg) == self.args.neg_num, (len(neg), step)
-            if self.args.context_length != 0: # use context to encode each step
+            if self.args.context_length != 0:
                 try:
                   step_context, step_index = self.get_surr_context(step)
                 except:
@@ -203,11 +201,10 @@ class RerankDataset(Dataset):
                 step_context = [step]
                 step_index = 0
 
-            if self.args.add_goal: # add title
+            if self.args.add_goal:
                 step_context = [self.step2goal.get(step, "goal")] + step_context
                 step_index += 1
 
-            # whole dataset
             if not self.pos_label and \
                     (max([len(' '.join(step_context + [x]).split()) for x in [gold] + neg]) >= 100 or max([len(' '.join(step_context + [x])) for x in [gold] + neg]) >= 600) :
                 logger.info(f"discard {step_context}, {gold}, {max(neg, key=len)}")
@@ -239,7 +236,7 @@ class Ranker(nn.Module):
     def __init__(self, args):
         super().__init__()
         self.args = args
-        # init a model
+        # modeli initialize et
         if self.args.model_name == "bert-base":
             self.model_config = BertConfig()
             self.encoder = BertModel.from_pretrained(MODEL_MAP[self.args.model_name])
@@ -279,7 +276,6 @@ class Ranker(nn.Module):
       return logits
 
 def calc_loss(pred, train_null, raw_data, null_token):
-    # [bs * per_sample_tot, 1]
     bs = pred.shape[0]
     gold = torch.zeros((bs)).to(pred.device).long()
     ce = F.cross_entropy(pred, gold, reduction='sum')
@@ -289,7 +285,7 @@ def calc_loss(pred, train_null, raw_data, null_token):
 
     null_acc = 0
     null_tot = 1e-10
-    if train_null: # calc null acc
+    if train_null:
         is_null = torch.zeros(bs)
         for idx, data in enumerate(raw_data):
             if data[1] == null_token:
@@ -332,12 +328,12 @@ def eval(data, model, args, return_prediction=False, pos_label=True):
                 for kk, vv in all_text.items():
                     text[kk] = vv[ii:ii + cur_per_sample_tot]
                 para_score = all_para_score[ii:ii + cur_per_sample_tot]
-                # only support bs == 1
+
                 raw_text = [all_raw_text[0]]
                 text = text.to(device)
                 para_score = para_score.to(device)
                 model.args.per_sample_tot = cur_per_sample_tot
-                # logger.info(caption['input_ids'].shape, data['other_data'])
+
                 pred = model(text, para_score)
                 bc_metric = calc_loss(pred, args.train_null, raw_text, args.null_token)
                 bs = bc_metric['tot']
@@ -350,7 +346,7 @@ def eval(data, model, args, return_prediction=False, pos_label=True):
                         cur_res = {'step': raw_text[i][0][raw_text[i][3]].replace("[unused0]", "").replace("[unused1]", "").strip(),
                                    'gold': cur_gold, 'pred': {},
                                    'goal': None}
-                        # gold + neg
+
                         cur_raw = [raw_text[i][1]] + raw_text[i][2]
                         cur_raw = cur_raw[ii:ii + cur_per_sample_tot]
                         for score, raw_goal in zip(pred_score[i], cur_raw):
@@ -360,20 +356,18 @@ def eval(data, model, args, return_prediction=False, pos_label=True):
                         else:
                             bs_res.append(cur_res)
 
-                    # text id to text
         except RuntimeError as e:
             if 'out of memory' in str(e):
                 logger.info(f'| WARNING: ran out of memory, discard batch {step}')
                 logger.info(data['raw'])
                 for p in model.parameters():
                     if p.grad is not None:
-                        del p.grad  # free some memory
+                        del p.grad  # hafızayı boşalt
                 torch.cuda.empty_cache()
                 continue
             else:
                 pass
 
-            # raise RuntimeError
     metric = create_metric(**ep_metric)
     if return_prediction:
         return metric, bs_res
@@ -390,7 +384,7 @@ def run(args):
     args.device = device
 
 
-    # dataset
+    # veri seti
     train_ds = RerankDataset(args, args.train_file)
     dev_ds = RerankDataset(args, args.dev_file)
 
@@ -399,8 +393,7 @@ def run(args):
     train_data = DataLoader(dataset=train_ds, batch_size=args.bs, shuffle=True, collate_fn=collate_fn, num_workers=8)
     dev_data = DataLoader(dataset=dev_ds, batch_size=args.val_bs, collate_fn=collate_fn, num_workers=4)
 
-    # optimizer and scheduler
-    # estimate the total steps
+    # optimizer ve scheduler
     tot_steps = len(train_data) // args.mega_bs * args.epochs
     logger.info(f"{tot_steps} steps in total")
     optimizer, scheduler = utils.get_optimizer(model, args, tot_steps)
@@ -425,7 +418,6 @@ def run(args):
                 text = text.to(device)
                 para_score = para_score.to(device)
 
-                # logger.info(caption['input_ids'].shape, data['other_data'])
                 pred = model(text, para_score)
                 bc_metric = calc_loss(pred, train_null=args.train_null, raw_data=data['raw'], null_token=args.null_token)
                 cur_loss, bs =  bc_metric['loss'], bc_metric['tot']
@@ -456,12 +448,10 @@ def run(args):
 
         train_metric = create_metric(**ep_metric)
 
-        # eval
         logger.info('begin validation on master process ...')
         val_metric = eval(dev_data, model, args)
-        # val_metric = {'loss': 0, 'acc': 0}
 
-        # save model
+        # modeli kaydet
         if ep >= args.min_save_ep:
             metric = {'train': train_metric, 'val': val_metric, 'epoch': ep}
             logger.info("begin saving the model on master process ...")
@@ -479,7 +469,7 @@ def config():
     parser = argparse.ArgumentParser()
     parser.add_argument('--mini_batch_size', default=30)
     parser.add_argument('--gpu', action='store_true', default=True)
-    # files
+    # gerekli dosyalar
     parser.add_argument('--step_goal_file', default='./data/wikihow.json')
     parser.add_argument('--step_goal_map_file', default='./data/step2goal.json')
     parser.add_argument('--model_name', default='bert-base')
@@ -489,7 +479,7 @@ def config():
     parser.add_argument('--gold_step_goal_para_score', help='file that store the retrieval score',
                         default='')
 
-    # hyper parameters
+    # hyper parameterler
     parser.add_argument('--resume', default="")
     parser.add_argument('--cont_train', action='store_true')
     parser.add_argument('--epochs', type=int, default=5)
@@ -504,7 +494,6 @@ def config():
     parser.add_argument("--hidden_dropout_prob", type=float, default=0.2)
     parser.add_argument("--min_save_ep", type=int, default=2)
 
-    # data specific
     parser.add_argument("--neg_num", help='number of negative each sample', type=int, default=9)
     parser.add_argument("--context_length", help="how much context to use for each step", type=int, default=0)
     parser.add_argument("--add_goal", help='whether to add the goal to the beginning', action='store_true')
@@ -516,7 +505,7 @@ def config():
     parser.add_argument('--max_sample', type=int, default=10000000)
 
     args = parser.parse_args()
-    args.per_sample_tot = args.neg_num + 1 # number of sentences per sample
+    args.per_sample_tot = args.neg_num + 1 # örnek başı cümle sayısı (negatif aday sayısı + 1 (pozitif aday))
     args.null_token = "[unused2]"
 
     assert "epoch" in args.save_path, (args.save_path)

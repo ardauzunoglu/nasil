@@ -68,9 +68,8 @@ def init_distributed_mode(args):
     Copyright (c) Facebook, Inc. and its affiliates.
     """
 
-    # if the process is launched using `torch.distributed.launch`
     if args.local_rank != -1:
-        # read environment variables
+        # environment değişkenlerini oku
         args.world_size = int(os.environ['WORLD_SIZE'])
         args.n_gpu_per_node = int(os.environ['NGPU'])
     else:
@@ -79,23 +78,15 @@ def init_distributed_mode(args):
         args.world_size = 1
         args.n_gpu_per_node = 1
 
-    # define whether this is the master process / if we are in distributed mode
     args.is_master = args.local_rank == 0
     args.multi_gpu = args.world_size > 1
 
-    # set GPU device
+    # GPU kullanılıyorsa aktive et
     if args.gpu:
         torch.cuda.set_device(args.local_rank)
 
-    # initialize multi-GPU
+    # Çoklu GPU kullanılacaksa distributed sistemi ayarla
     if args.multi_gpu:
-
-        # http://pytorch.apachecn.org/en/0.3.0/distributed.html#environment-variable-initialization
-        # 'env://' will read these environment variables:
-        # MASTER_PORT - required; has to be a free port on machine with rank 0
-        # MASTER_ADDR - required (except for rank 0); address of rank 0 node
-        # WORLD_SIZE - required; can be set either here, or in a call to init function
-        # RANK - required; can be set either here, or in a call to init function
         print(f"port: {os.environ['MASTER_PORT']}, "
               f"address: {os.environ['MASTER_ADDR']}, "
               f"world size: {os.environ['WORLD_SIZE']}, "
