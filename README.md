@@ -187,7 +187,7 @@ Türkçe Sentence Transformer'ın eğitiminde TDD'den alınan 240GB'lık [TDD-Co
 **Data**: TDD-Corpus'un işlenmesiyle elde edilen 80 milyon cümle çifti <br>
 
 
-Türkçe Sentence Transformer modeline ulaşmak için [tıklayabilirsiniz](https://drive.google.com/drive/folders/1eEBsFnCvD1wxo3q5uPNhcKo4W8dhvIk3?usp=sharing).
+Türkçe Sentence Transformer modeline ulaşmak için [tıklayabilirsiniz](https://drive.google.com/file/d/1w-YeHOD_3clFJAlj7wCz--mkd4XMHMN9/view?usp=sharing).
 
 ## En Yakın 30 Rehberin Yeniden Sıralanması
 
